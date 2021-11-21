@@ -1,22 +1,22 @@
 package com.example.keyworddiary;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.keyworddiary.databinding.ActivityMainBinding;
+import com.example.keyworddiary.databinding.ActivityResultBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class Result_Activity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
+    private ActivityResultBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityResultBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
     }
-
-
 }
