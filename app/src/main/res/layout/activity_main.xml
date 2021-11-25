@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:text="오늘 한 일"
         tools:layout_editor_absoluteX="38dp"
-        tools:layout_editor_absoluteY="112dp" />
+        tools:layout_editor_absoluteY="177dp" />
 
     <TextView
         android:id="@+id/textView3"
@@ -31,13 +31,36 @@
         android:layout_height="wrap_content"
         android:text="오늘 느낀 감정"
         tools:layout_editor_absoluteX="38dp"
-        tools:layout_editor_absoluteY="164dp" />
+        tools:layout_editor_absoluteY="347dp" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="마지막으로, 오늘 하루 점수를 매긴다면?"
-        tools:layout_editor_absoluteX="38dp"
-        tools:layout_editor_absoluteY="212dp" />
+        tools:layout_editor_absoluteX="89dp"
+        tools:layout_editor_absoluteY="547dp" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="수고했어요, OOO님"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="40dp" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="273dp"
+        android:layout_height="35dp"
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="592dp" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="점수대 별로 변화하는 텍스트"
+        tools:layout_editor_absoluteX="123dp"
+        tools:layout_editor_absoluteY="653dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

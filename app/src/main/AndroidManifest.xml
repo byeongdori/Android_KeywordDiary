@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KeywordDiary">
         <activity
+            android:name=".Setting_Activity"
+            android:exported="true" />
+        <activity
+            android:name=".Calendar_Activity"
+            android:exported="true" />
+        <activity
             android:name=".Result_Activity"
             android:exported="true" />
         <activity
