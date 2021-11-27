@@ -10,12 +10,19 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="76dp"
         android:text="오늘 하루는 어떠셨나요?"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="수고했어요, OOO님"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="48dp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -41,14 +48,6 @@
         tools:layout_editor_absoluteX="89dp"
         tools:layout_editor_absoluteY="547dp" />
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="수고했어요, OOO님"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="40dp" />
-
     <SeekBar
         android:id="@+id/seekBar"
         android:layout_width="273dp"
@@ -63,4 +62,30 @@
         android:text="점수대 별로 변화하는 텍스트"
         tools:layout_editor_absoluteX="123dp"
         tools:layout_editor_absoluteY="653dp" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="인풋 부분을 어떻게?"
+        tools:layout_editor_absoluteX="134dp"
+        tools:layout_editor_absoluteY="258dp" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="인풋 부분을 어떻게 하지?"
+        tools:layout_editor_absoluteX="134dp"
+        tools:layout_editor_absoluteY="448dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="testfunction"
+        android:text="testbutton"
+        tools:layout_editor_absoluteX="227dp"
+        tools:layout_editor_absoluteY="164dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

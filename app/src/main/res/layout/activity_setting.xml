@@ -12,5 +12,31 @@
         android:layout_height="wrap_content"
         android:text="설정 창"
         tools:layout_editor_absoluteX="184dp"
-        tools:layout_editor_absoluteY="356dp" />
+        tools:layout_editor_absoluteY="57dp" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사용자 이름"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="124dp" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="9"
+        android:hint="이름을 입력해 주세요"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="159dp"
+        tools:layout_editor_absoluteY="110dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="데이터 초기화"
+        tools:layout_editor_absoluteX="144dp"
+        tools:layout_editor_absoluteY="592dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
