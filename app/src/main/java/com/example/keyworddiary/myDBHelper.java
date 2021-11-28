@@ -57,4 +57,12 @@ public class myDBHelper extends SQLiteOpenHelper {
         cursor.close();
         sqlDB.close();
     }
+
+    public void insertUser(Context context, String username, Integer age) {
+        myDBHelper myHelper = new myDBHelper(context);
+        SQLiteDatabase sqlDB = myHelper.getWritableDatabase();
+        sqlDB.execSQL("insert into user values(username, age)");
+        sqlDB.close();
+        Toast.makeText(context, "유저 저장 완료!", Toast.LENGTH_LONG).show();
+    }
 }

@@ -11,26 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="설정 창"
-        tools:layout_editor_absoluteX="184dp"
-        tools:layout_editor_absoluteY="57dp" />
-
-    <TextView
-        android:id="@+id/textView21"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="사용자 이름"
-        tools:layout_editor_absoluteX="46dp"
-        tools:layout_editor_absoluteY="124dp" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="9"
-        android:hint="이름을 입력해 주세요"
-        android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="159dp"
-        tools:layout_editor_absoluteY="110dp" />
+        tools:layout_editor_absoluteX="174dp"
+        tools:layout_editor_absoluteY="43dp" />
 
     <Button
         android:id="@+id/button"
@@ -39,4 +21,64 @@
         android:text="데이터 초기화"
         tools:layout_editor_absoluteX="144dp"
         tools:layout_editor_absoluteY="592dp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="사용자 이름" />
+
+        <EditText
+            android:id="@+id/UsernameInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="9"
+            android:hint="이름을 입력해 주세요"
+            android:inputType="textPersonName" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="사용자 나이" />
+
+        <EditText
+            android:id="@+id/Userageinput"
+            android:layout_width="186dp"
+            android:layout_height="41dp"
+            android:ems="10"
+            android:hint="나이를 입력해 주세요"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/Userinfosave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:onClick="saveuserinfo"
+        android:text="정보 저장"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
+        tools:layout_editor_absoluteX="158dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,78 +6,106 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
-        android:text="오늘 하루는 어떠셨나요?"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="72dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:text="오늘 하루는 어떠셨나요?" />
+
+        <TextView
+            android:id="@+id/Greetingtext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="수고했어요, OOO님" />
+
+        <TextView
+            android:id="@+id/SetUsernameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="수고했어요, OOO님"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="48dp" />
+        android:layout_marginTop="48dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:layout_editor_absoluteX="0dp">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="오늘 한 일" />
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="인풋 부분을 어떻게?" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="오늘 한 일"
-        tools:layout_editor_absoluteX="38dp"
-        tools:layout_editor_absoluteY="177dp" />
+        android:layout_marginTop="44dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        tools:layout_editor_absoluteX="0dp">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="오늘 느낀 감정" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="인풋 부분을 어떻게 하지?" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="오늘 느낀 감정"
-        tools:layout_editor_absoluteX="38dp"
-        tools:layout_editor_absoluteY="347dp" />
+        android:layout_marginTop="192dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        tools:layout_editor_absoluteX="0dp">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="마지막으로, 오늘 하루 점수를 매긴다면?"
-        tools:layout_editor_absoluteX="89dp"
-        tools:layout_editor_absoluteY="547dp" />
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="마지막으로, 오늘 하루 점수를 매긴다면?" />
 
-    <SeekBar
-        android:id="@+id/seekBar"
-        android:layout_width="273dp"
-        android:layout_height="35dp"
-        tools:layout_editor_absoluteX="69dp"
-        tools:layout_editor_absoluteY="592dp" />
+        <SeekBar
+            android:id="@+id/todayScore"
+            android:layout_width="273dp"
+            android:layout_height="35dp"
+            android:onClick="getTodayScore" />
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="점수대 별로 변화하는 텍스트"
-        tools:layout_editor_absoluteX="123dp"
-        tools:layout_editor_absoluteY="653dp" />
-
-    <TextView
-        android:id="@+id/textView19"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="인풋 부분을 어떻게?"
-        tools:layout_editor_absoluteX="134dp"
-        tools:layout_editor_absoluteY="258dp" />
-
-    <TextView
-        android:id="@+id/textView20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="인풋 부분을 어떻게 하지?"
-        tools:layout_editor_absoluteX="134dp"
-        tools:layout_editor_absoluteY="448dp" />
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="점수대 별로 변화하는 텍스트" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/button2"
@@ -85,7 +113,15 @@
         android:layout_height="wrap_content"
         android:onClick="testfunction"
         android:text="testbutton"
-        tools:layout_editor_absoluteX="227dp"
-        tools:layout_editor_absoluteY="164dp" />
+        tools:layout_editor_absoluteX="139dp"
+        tools:layout_editor_absoluteY="576dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="설정 화면으로"
+        tools:layout_editor_absoluteX="144dp"
+        tools:layout_editor_absoluteY="647dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
