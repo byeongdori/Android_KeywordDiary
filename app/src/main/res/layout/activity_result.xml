@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
         android:text="주말에만 등장한 키워드"
         tools:layout_editor_absoluteX="31dp"
-        tools:layout_editor_absoluteY="530dp" />
+        tools:layout_editor_absoluteY="509dp" />
 
     <TextView
         android:id="@+id/textView12"

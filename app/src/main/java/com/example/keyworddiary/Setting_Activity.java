@@ -2,8 +2,11 @@ package com.example.keyworddiary;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.keyworddiary.databinding.ActivityMainBinding;
@@ -32,12 +35,28 @@ public class Setting_Activity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         startActivity(new Intent(this,MainActivity.class));
+
+        // 현재 액티비티 종료
+        finish();
     }
 
     // 유저 정보 DB에 저장
+    // DB 관련 함수 수정해야함, 유저를 처음 넣는경우, 유저가 있는데 수정하는 경우, 직접 DB 클라스에서 수정해야함
     public void saveuserinfo(View view) {
+        Log.i("TEST", "여기까지 실행 1");
         Username = binding.UsernameInput.getText().toString();
         Userage = Integer.parseInt(binding.Userageinput.getText().toString());
+        Log.i("TEST", "여기까지 실행 2");
         myDB.insertUser(this, Username, Userage);
+        Log.i("TEST", "여기까지 실행 3");
+        // 저장소에 값 저장
+        SharedPreferences sharedPreferences = getSharedPreferences("SharedResource", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        // 사용자가 입력한 저장할 데이터
+        // key, value를 이용하여 저장하는 형태
+        editor.putString("username", Username);
+        editor.putInt("userage", Userage);
+        editor.commit();
     }
 }

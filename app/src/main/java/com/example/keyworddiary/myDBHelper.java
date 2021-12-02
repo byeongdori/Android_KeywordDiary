@@ -65,4 +65,18 @@ public class myDBHelper extends SQLiteOpenHelper {
         sqlDB.close();
         Toast.makeText(context, "유저 저장 완료!", Toast.LENGTH_LONG).show();
     }
+
+    public String getUser(Context context, String user_name) {
+        myDBHelper myHelper = new myDBHelper(context);
+        SQLiteDatabase sqlDB = myHelper.getReadableDatabase();
+        Cursor cursor;
+        cursor = sqlDB.rawQuery("select userid, username from user where username=user_name;", null);
+        while (cursor.moveToNext()) {
+            Toast.makeText(context, cursor.getString(0), Toast.LENGTH_LONG).show();
+        }
+        cursor.close();
+        sqlDB.close();
+        return "";
+    }
+
 }

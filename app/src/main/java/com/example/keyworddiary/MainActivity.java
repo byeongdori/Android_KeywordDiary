@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     // 유저 이름 저장하는 변수
     public String Username = null;
 
+    public int currentscore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         View view = binding.getRoot();
 
         // 앱 실행시 이전 정보 불러오기
-        SharedPreferences pref = getSharedPreferences("username", Activity.MODE_PRIVATE);
+        SharedPreferences pref = getSharedPreferences("SharedResource", Activity.MODE_PRIVATE);
         if ((pref != null) && (pref.contains("username"))) {
             Username = pref.getString("username", "");
             binding.Greetingtext.setText(Username);
@@ -41,23 +44,33 @@ public class MainActivity extends AppCompatActivity {
             binding.SetUsernameText.setText("설정 창에 가서 유저 이름을 설정해주세요!");
         }
 
+        binding.todayScore.setProgress(0);
         // Seekbar에 리스너 등록, 점수대 별로 변화하는 텍스트 설정하기
         binding.todayScore.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
-            int currentscore;
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                seekBar.getProgress();
+                currentscore = seekBar.getProgress();
+                binding.todayScoredisplay.setText(Integer.toString(currentscore) + "점");
+                if (currentscore > 75) {
+                    binding.todayScoretext.setText("최고의 하루를 보내셨네요!");
+                } else if (currentscore < 30) {
+                    binding.todayScoretext.setText("내일은 더 좋은 하루가 찾아올꺼에요 :)");
+                } else {
+                    binding.todayScoretext.setText("평범한 하루였어요");
+                }
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                currentscore = seekBar.getProgress();
+                Log.i("TEST", Integer.toString(currentscore));
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                currentscore = seekBar.getProgress();
+                Log.i("TEST", Integer.toString(currentscore));
             }
         });
         setContentView(view);
@@ -84,8 +97,13 @@ public class MainActivity extends AppCompatActivity {
         String feelings = binding.todayFeeling.getText().toString();
         ArrayList<String> todayworks = new ArrayList<>(Arrays.asList(works.replaceAll(" ","").split(",")));
         ArrayList<String> todayfeelings = new ArrayList<>(Arrays.asList(feelings.replaceAll(" ","").split(",")));
-        int todayScore = binding.todayScore.getProgress();
 
         // 변수 활용하기, DB에 저장하고 다음으로 넘어가나? 여기가 처리할 부분이 많겠네, 결과 페이지로 넘어갈 때 로딩?
+    }
+
+    public void tosettingactivity(View view){
+        startActivity(new Intent(this,Setting_Activity.class));
+        // 현재 액티비티 종료
+        finish();
     }
 }

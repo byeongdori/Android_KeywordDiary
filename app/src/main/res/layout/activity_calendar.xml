@@ -7,7 +7,7 @@
     tools:context=".Calendar_Activity">
 
     <CalendarView
-        android:id="@+id/calendarView"
+        android:id="@+id/resultCalendar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="30dp"
@@ -26,14 +26,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="월간 통계"
-        tools:layout_editor_absoluteX="62dp"
-        tools:layout_editor_absoluteY="380dp" />
+        tools:layout_editor_absoluteX="44dp"
+        tools:layout_editor_absoluteY="391dp" />
 
     <TextView
         android:id="@+id/textView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="요일별 통계"
-        tools:layout_editor_absoluteX="62dp"
-        tools:layout_editor_absoluteY="432dp" />
+        tools:layout_editor_absoluteX="44dp"
+        tools:layout_editor_absoluteY="468dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
