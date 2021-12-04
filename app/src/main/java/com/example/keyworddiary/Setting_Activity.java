@@ -43,12 +43,19 @@ public class Setting_Activity extends AppCompatActivity {
     // 유저 정보 DB에 저장
     // DB 관련 함수 수정해야함, 유저를 처음 넣는경우, 유저가 있는데 수정하는 경우, 직접 DB 클라스에서 수정해야함
     public void saveuserinfo(View view) {
-        Log.i("TEST", "여기까지 실행 1");
+
         Username = binding.UsernameInput.getText().toString();
         Userage = Integer.parseInt(binding.Userageinput.getText().toString());
-        Log.i("TEST", "여기까지 실행 2");
-        myDB.insertUser(this, Username, Userage);
-        Log.i("TEST", "여기까지 실행 3");
+
+        String getUserresult = myDB.getUser(this, Username);
+
+        // 유저 존재하지 않는 경우, 생성한 후 받아오기!
+        if (getUserresult == null) {
+            myDB.insertUser(this, Username, Userage);
+            getUserresult = myDB.getUser(this, Username);
+        }
+        Log.i("TEST", getUserresult);
+
         // 저장소에 값 저장
         SharedPreferences sharedPreferences = getSharedPreferences("SharedResource", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
