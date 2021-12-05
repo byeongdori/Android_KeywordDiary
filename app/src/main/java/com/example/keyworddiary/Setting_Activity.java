@@ -31,7 +31,7 @@ public class Setting_Activity extends AppCompatActivity {
     }
 
     // 이전 버튼 눌렀을 때 동작하는 함수, 이전 액티비티 실행하도록 만들기
-   @Override
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
         startActivity(new Intent(this,MainActivity.class));
@@ -47,14 +47,14 @@ public class Setting_Activity extends AppCompatActivity {
         Username = binding.UsernameInput.getText().toString();
         Userage = Integer.parseInt(binding.Userageinput.getText().toString());
 
-        String getUserresult = myDB.getUser(this, Username);
+        String[] getUserresult = myDB.getUser(this, Username);
 
         // 유저 존재하지 않는 경우, 생성한 후 받아오기!
         if (getUserresult == null) {
             myDB.insertUser(this, Username, Userage);
             getUserresult = myDB.getUser(this, Username);
         }
-        Log.i("TEST", getUserresult);
+        Log.i("TEST", getUserresult[1]);
 
         // 저장소에 값 저장
         SharedPreferences sharedPreferences = getSharedPreferences("SharedResource", Activity.MODE_PRIVATE);
@@ -65,5 +65,11 @@ public class Setting_Activity extends AppCompatActivity {
         editor.putString("username", Username);
         editor.putInt("userage", Userage);
         editor.commit();
+    }
+
+    // 데이터 초기화 함수!
+    public void initializedata(View view) {
+
+        myDB.initializeDB(this);
     }
 }

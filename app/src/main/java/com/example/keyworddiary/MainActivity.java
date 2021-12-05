@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.example.keyworddiary.databinding.ActivityMainBinding;
 
@@ -100,14 +101,13 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> todayworks = new ArrayList<>(Arrays.asList(works.replaceAll(" ","").split(",")));
         ArrayList<String> todayfeelings = new ArrayList<>(Arrays.asList(feelings.replaceAll(" ","").split(",")));
 
-        // 변수 활용하기, DB에 저장하고 다음으로 넘어가나? 여기가 처리할 부분이 많겠네, 결과 페이지로 넘어갈 때 로딩?
-
         // 유저가 입력한 키워드 DB에 저장, 생성된 KeyWord ID도 받아와야 할듯?
+        ArrayList<Integer> keywordids = new ArrayList<>();
         for (int i = 0; i < todayworks.size(); i++) {
-            myDB.insertKeyword(this, todayworks.get(i));
+            keywordids.add(myDB.insertKeyword(this, todayworks.get(i)));
         }
         for (int i = 0; i < todayfeelings.size(); i++) {
-            myDB.insertKeyword(this, todayfeelings.get(i));
+            keywordids.add(myDB.insertKeyword(this, todayfeelings.get(i)));
         }
 
         // 최종 다이어리 객체 DB에 생성
@@ -123,10 +123,21 @@ public class MainActivity extends AppCompatActivity {
         int current_day = Integer.parseInt(daytransFormat.format(currentDate));
 
         // 2. DB에 다이어리 객체 생성
-        myDB.insertDiary(this, userid, current_year, current_month, current_day);
+        if (Username == null) {
+            Toast.makeText(this,"설정에 가서 유저 정보를 먼저 입력해주세요!", Toast.LENGTH_LONG).show();
+        }
+        else {
+            String userid = myDB.getUser(this, Username)[0];
+            int diaryid = myDB.insertDiary(this, userid, currentscore, current_year, current_month, current_day);
 
-        // 3. 다이어리 - 키워드 일대다 관계 객체 생성
+            // 3. 다이어리 - 키워드 일대다 관계 객체 생성
+            for (int i = 0; i < keywordids.size(); i++) {
+                myDB.insertDiarywithKeyword(this, diaryid, keywordids.get(i));
+            }
+        }
 
+        startActivity(new Intent(this, Result_Activity.class));
+        finish();
     }
 
     // 설정 액티비티로 가는 버튼 누른 경우 동작 수행하는 함수

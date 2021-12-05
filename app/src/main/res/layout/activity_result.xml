@@ -44,6 +44,15 @@
         </LinearLayout>
     </LinearLayout>
 
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/Scorerange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:valueFrom="0.0"
+        android:valueTo="100.0"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="174dp" />
+
     <TextView
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
@@ -76,19 +85,22 @@
         tools:layout_editor_absoluteX="31dp"
         tools:layout_editor_absoluteY="399dp" />
 
-    <RatingBar
-        android:id="@+id/ratingBar2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="182dp" />
-
     <TextView
         android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="이 자리에 점수 통계"
-        tools:layout_editor_absoluteX="161dp"
-        tools:layout_editor_absoluteY="135dp" />
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="140dp" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:onClick="tocalendaractivity"
+        android:text="다음으로"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="158dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

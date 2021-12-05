@@ -166,6 +166,6 @@
         android:onClick="tosettingactivity"
         android:text="설정 화면으로"
         tools:layout_editor_absoluteX="249dp"
-        tools:layout_editor_absoluteY="650dp" />
+        tools:layout_editor_absoluteY="639dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
