@@ -35,14 +35,18 @@ public class Result_Activity extends AppCompatActivity {
             binding.userinfoName.setText(Username);
 
             // 점수 받아오기
-            Double[] userScore = new Double[3];
-            Integer userid = Integer.parseInt(myDB.getUser(this, Username)[0]);
+            double[] userScore = new double[3];
+            int userid = Integer.parseInt(myDB.getUser(this, Username)[0]);
             userScore = myDB.getDiaryScore(this, userid);
+            binding.Scorerange.setEnabled(false);
+            // 점수 슬라이드 바 -> 여기 활용법 체크하기
+//            binding.Scorerange.setValueFrom((float) userScore[0]);
+//            binding.Scorerange.setValueTo((float) userScore[1]);
         }
         if (Username == null) {
             binding.userinfoName.setText("유저 이름이 설정 되어있지 않아요!");
         }
-        // 점수 슬라이드 바
+
 //       binding.Scorerange.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
 //            @Override
 //            public void onStartTrackingTouch(@NonNull RangeSlider slider) {

@@ -143,7 +143,6 @@ public class MainActivity extends AppCompatActivity {
     // 설정 액티비티로 가는 버튼 누른 경우 동작 수행하는 함수
     public void tosettingactivity(View view){
         startActivity(new Intent(this,Setting_Activity.class));
-        // 현재 액티비티 종료
         finish();
     }
 }

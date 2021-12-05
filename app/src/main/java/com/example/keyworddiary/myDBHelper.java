@@ -18,8 +18,8 @@ public class myDBHelper extends SQLiteOpenHelper {
         Log.i("TEST", "DB 생성");
         sqLiteDatabase.execSQL("create table user (Userid integer primary key autoincrement, Username char(20), Age integer);");
         sqLiteDatabase.execSQL("create table diary (Diaryid integer primary key autoincrement, Userid integer references user, Score integer, Year integer, Month integer, Day integer);");
-        sqLiteDatabase.execSQL("create table keyword (Keywordid integer primary key autoincrement, Keyword char(20))");
-        sqLiteDatabase.execSQL("create table diarywithkeyword(Diarywithkeywordid integer primary key autoincrement, Diaryid integer references diary, Keywordid references keyword)");
+        sqLiteDatabase.execSQL("create table keyword (Keywordid integer primary key autoincrement, Keyword char(20));");
+        sqLiteDatabase.execSQL("create table diarywithkeyword(Diarywithkeywordid integer primary key autoincrement, Diaryid integer references diary, Keywordid references keyword);");
     }
 
     @Override
@@ -148,12 +148,12 @@ public class myDBHelper extends SQLiteOpenHelper {
         return diary_id;
     }
 
-    public Double[] getDiaryScore(Context context, Integer userid) {
-        Double[] resultscore = new Double[3];
+    public double[] getDiaryScore(Context context, Integer userid) {
+        double[] resultscore = new double[3];
 
-        Double minimumscore = 101.0;
-        Double maximumscore = 0.0;
-        Double averagescore = 0.0;
+        double minimumscore = 101.0;
+        double maximumscore = 0.0;
+        double averagescore = 0.0;
 
         myDBHelper myHelper = new myDBHelper(context);
         SQLiteDatabase sqlreadDB = myHelper.getReadableDatabase();
@@ -161,20 +161,24 @@ public class myDBHelper extends SQLiteOpenHelper {
         Cursor cursor;
         cursor = sqlreadDB.rawQuery("select Score from Diary where Userid="+userid+";", null);
 
-        Integer num = cursor.getCount();
+        int num = cursor.getCount();
 
         while (cursor.moveToNext()) {
             averagescore += cursor.getInt(0);
             if (cursor.getInt(0) < minimumscore) {
-                minimumscore = Double.valueOf(cursor.getInt(0));
+                minimumscore = (double) cursor.getInt(0);
             }
             if (cursor.getInt(0) > maximumscore) {
-                maximumscore = Double.valueOf(cursor.getInt(0));
+                maximumscore = (double) cursor.getInt(0);
             }
         }
         if (num != 0) {
             averagescore = averagescore / num;
         }
+
+        resultscore[0] = minimumscore;
+        resultscore[1] = maximumscore;
+        resultscore[2] = averagescore;
 
         return resultscore;
     }

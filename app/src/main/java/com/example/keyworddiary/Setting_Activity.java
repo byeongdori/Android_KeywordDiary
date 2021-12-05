@@ -71,5 +71,9 @@ public class Setting_Activity extends AppCompatActivity {
     public void initializedata(View view) {
 
         myDB.initializeDB(this);
+        SharedPreferences sharedPreferences = getSharedPreferences("SharedResource", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
     }
 }
