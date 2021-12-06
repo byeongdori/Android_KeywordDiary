@@ -34,34 +34,24 @@ public class Result_Activity extends AppCompatActivity {
             Username = pref.getString("username", "");
             binding.userinfoName.setText(Username);
 
-            // 점수 받아오기
+            // 추천 문구 2개 띄우기
+
+
+            // 점수 받아와서 통계바에 세팅
             double[] userScore = new double[3];
             int userid = Integer.parseInt(myDB.getUser(this, Username)[0]);
             userScore = myDB.getDiaryScore(this, userid);
+
+            binding.Scoreresult.setText("최저 점수 : " + userScore[0] + " 최고점수 : " + userScore[1] + " 평균점수 : " + userScore[2]);
             binding.Scorerange.setEnabled(false);
-            // 점수 슬라이드 바 -> 여기 활용법 체크하기
-//            binding.Scorerange.setValueFrom((float) userScore[0]);
-//            binding.Scorerange.setValueTo((float) userScore[1]);
+            binding.Scorerange.setValues((float)userScore[0], (float)userScore[1]);
+
+            // 키워드 분석 결과 세팅
+
         }
         if (Username == null) {
             binding.userinfoName.setText("유저 이름이 설정 되어있지 않아요!");
         }
-
-//       binding.Scorerange.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
-//            @Override
-//            public void onStartTrackingTouch(@NonNull RangeSlider slider) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(@NonNull RangeSlider slider) {
-//
-//            }
-//        });
-//
-//        binding.Scorerange.setLabelFormatter(Float minimum, Float maximum) {
-//
-//        };
     }
 
     // 이전 버튼 눌렀을 때 동작하는 함수, 이전 액티비티 실행하도록 만들기
@@ -69,16 +59,13 @@ public class Result_Activity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         startActivity(new Intent(this,MainActivity.class));
-
-        // 현재 액티비티 종료
         finish();
     }
 
+    // 달력 통계로 넘어가는 버튼
     public void tocalendaractivity(View view) {
 
         startActivity(new Intent(this,Calendar_Activity.class));
-
-        // 현재 액티비티 종료
         finish();
     }
 }

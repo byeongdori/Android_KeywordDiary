@@ -42,6 +42,7 @@ public class Setting_Activity extends AppCompatActivity {
 
     // 유저 정보 DB에 저장
     // DB 관련 함수 수정해야함, 유저를 처음 넣는경우, 유저가 있는데 수정하는 경우, 직접 DB 클라스에서 수정해야함
+    // 사진 넣는거 추가해야함!
     public void saveuserinfo(View view) {
 
         Username = binding.UsernameInput.getText().toString();

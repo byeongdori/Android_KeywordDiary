@@ -123,7 +123,7 @@ public class myDBHelper extends SQLiteOpenHelper {
         return keyword_id;
     }
 
-    public int insertDiary(Context context, String userid, Integer score, Integer year, Integer month, Integer day) {
+    public int insertDiary(Context context, String userid, int score, int year, int month, int day) {
         int diary_id = 0;
         myDBHelper myHelper = new myDBHelper(context);
         SQLiteDatabase sqlreadDB = myHelper.getReadableDatabase();
@@ -148,7 +148,7 @@ public class myDBHelper extends SQLiteOpenHelper {
         return diary_id;
     }
 
-    public double[] getDiaryScore(Context context, Integer userid) {
+    public double[] getDiaryScore(Context context, int userid) {
         double[] resultscore = new double[3];
 
         double minimumscore = 101.0;
@@ -183,7 +183,50 @@ public class myDBHelper extends SQLiteOpenHelper {
         return resultscore;
     }
 
-    public void insertDiarywithKeyword(Context context, Integer diaryid, Integer keywordid) {
+    public double[] getDiaryScoreDetail(Context context, int userid, int month, int day) {
+        double[] resultscore = new double[3];
+
+        double minimumscore = 101.0;
+        double maximumscore = 0.0;
+        double averagescore = 0.0;
+
+        myDBHelper myHelper = new myDBHelper(context);
+        SQLiteDatabase sqlreadDB = myHelper.getReadableDatabase();
+
+        Cursor cursor;
+        // 월간 통계
+        if (day == 0) {
+            cursor = sqlreadDB.rawQuery("select Score from Diary where Userid=" + userid + " and Month=" + month + ";", null);
+
+            int num = cursor.getCount();
+
+            while (cursor.moveToNext()) {
+                averagescore += cursor.getInt(0);
+                if (cursor.getInt(0) < minimumscore) {
+                    minimumscore = (double) cursor.getInt(0);
+                }
+                if (cursor.getInt(0) > maximumscore) {
+                    maximumscore = (double) cursor.getInt(0);
+                }
+            }
+            if (num != 0) {
+                averagescore = averagescore / num;
+            }
+
+            resultscore[0] = minimumscore;
+            resultscore[1] = maximumscore;
+            resultscore[2] = averagescore;
+        }
+        // 요일별 통계
+        else {
+            cursor = sqlreadDB.rawQuery("select Score from Diary where Userid=" + userid + " and Month=" + month + " and Day=" + day + ";", null);
+            // 요일 알아내는 과정 필요..
+        }
+
+        return resultscore;
+    }
+
+    public void insertDiarywithKeyword(Context context, int diaryid, int keywordid) {
         myDBHelper myHelper = new myDBHelper(context);
         SQLiteDatabase sqlreadDB = myHelper.getReadableDatabase();
         // 먼저 넣으려는 다이어리-키워드 객체 있는지 체크
@@ -202,7 +245,7 @@ public class myDBHelper extends SQLiteOpenHelper {
         Toast.makeText(context, "키워드 저장 완료!", Toast.LENGTH_LONG).show();
     }
 
-    public void getKeywordinfo(Context context, Integer userid) {
-        // 키워드 분석 함수
+    public void getKeywordinfo(Context context, int userid) {
+        // 키워드 분석 함수, Cursor.getCount() 활용해야 할듯 함..
     }
 }
