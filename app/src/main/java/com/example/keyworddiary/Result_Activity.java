@@ -47,6 +47,11 @@ public class Result_Activity extends AppCompatActivity {
             binding.Scorerange.setValues((float)userScore[0], (float)userScore[1]);
 
             // 키워드 분석 결과 세팅
+            // 1. 가장 많이 나타난 키워드
+            String mostappearkeyword = myDB.getKeywordinfo_mostappear(this, userid);
+            binding.mostappearkeyword.setText(mostappearkeyword);
+
+            // 2. 기분 좋은 날 등장한 키워드
 
         }
         if (Username == null) {

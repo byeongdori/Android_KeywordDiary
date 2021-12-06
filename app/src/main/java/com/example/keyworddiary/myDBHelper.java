@@ -4,8 +4,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class myDBHelper extends SQLiteOpenHelper {
 
@@ -183,8 +191,14 @@ public class myDBHelper extends SQLiteOpenHelper {
         return resultscore;
     }
 
-    public double[] getDiaryScoreDetail(Context context, int userid, int month, int day) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public double[] getDiaryScoreDetail(Context context, int userid, int year, int month, int day) {
         double[] resultscore = new double[3];
+        Arrays.fill(resultscore, 0);
+        double[] resultweeklyscore = new double[7];
+        Arrays.fill(resultweeklyscore, 0);
+        int[] resultweeklycount = new int[7];
+        Arrays.fill(resultweeklycount, 0);
 
         double minimumscore = 101.0;
         double maximumscore = 0.0;
@@ -216,14 +230,33 @@ public class myDBHelper extends SQLiteOpenHelper {
             resultscore[0] = minimumscore;
             resultscore[1] = maximumscore;
             resultscore[2] = averagescore;
+
+            return resultscore;
         }
         // 요일별 통계
         else {
-            cursor = sqlreadDB.rawQuery("select Score from Diary where Userid=" + userid + " and Month=" + month + " and Day=" + day + ";", null);
-            // 요일 알아내는 과정 필요..
-        }
+            cursor = sqlreadDB.rawQuery("select Score, Year, Month, Day from Diary where Userid=" + userid + ";", null);
 
-        return resultscore;
+            while (cursor.moveToNext()) {
+                // 요일 알아내는 과정
+                int current_year = cursor.getInt(1);
+                int current_month = cursor.getInt(2);
+                int current_day = cursor.getInt(3);
+                LocalDate date = LocalDate.of(current_year, current_month, current_day);
+                DayOfWeek dayOfWeek = date.getDayOfWeek();
+                int dayOfWeekNumber = dayOfWeek.getValue();
+
+                resultweeklyscore[dayOfWeekNumber] += cursor.getInt(0);
+                resultweeklycount[dayOfWeekNumber] += 1;
+            }
+
+            for (int i = 0; i < 7; i++) {
+                if (resultweeklycount[i] != 0) {
+                    resultweeklyscore[i] = resultweeklyscore[i] / resultweeklycount[i];
+                }
+            }
+            return resultweeklyscore;
+        }
     }
 
     public void insertDiarywithKeyword(Context context, int diaryid, int keywordid) {
@@ -245,7 +278,89 @@ public class myDBHelper extends SQLiteOpenHelper {
         Toast.makeText(context, "키워드 저장 완료!", Toast.LENGTH_LONG).show();
     }
 
-    public void getKeywordinfo(Context context, int userid) {
-        // 키워드 분석 함수, Cursor.getCount() 활용해야 할듯 함..
+    public String getKeywordinfo_mostappear(Context context, int userid) {
+        // 가장 빈번한 키워드 분석 함수
+        myDBHelper myHelper = new myDBHelper(context);
+        SQLiteDatabase sqlreadDB = myHelper.getReadableDatabase();
+
+        Cursor cursor;
+        cursor = sqlreadDB.rawQuery("select diaryid from diary where Userid="+userid+";", null);
+
+        ArrayList<Integer> user_diaryids = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            user_diaryids.add(cursor.getInt(0));
+        }
+
+        // 가장 빈번한 키워드 찾기
+        int[] keywordcount = new int[100];
+        Arrays.fill(keywordcount, 0);
+
+        for (int i = 0; i < user_diaryids.size(); i++) {
+            cursor = sqlreadDB.rawQuery("select keywordid from diarywithkeyword where Diaryid=" + user_diaryids.get(i) + ";", null);
+            while (cursor.moveToNext()) {
+                keywordcount[cursor.getInt(0)]++;
+            }
+        }
+
+        int maximumkeywordindex = 0;
+        int maximum = 0;
+        for (int i = 0; i < 100; i++) {
+            if (keywordcount[i] > maximum) {
+                maximumkeywordindex = i;
+                maximum = keywordcount[i];
+            }
+        }
+
+        String returnkeyword = "";
+        cursor = sqlreadDB.rawQuery("select Keyword from keyword where Keywordid="+maximumkeywordindex+";",null);
+        while (cursor.moveToNext()) {
+            returnkeyword = cursor.getString(0);
+        }
+        cursor.close();
+
+        return returnkeyword;
+    }
+
+    public String getKeywordinfo_higherscore(Context context, int userid) {
+        // 가장 높은 점수 얻은 키워드 분석 함수
+        myDBHelper myHelper = new myDBHelper(context);
+        SQLiteDatabase sqlreadDB = myHelper.getReadableDatabase();
+
+//        Cursor cursor;
+//        cursor = sqlreadDB.rawQuery("select diaryid from diary where Userid="+userid+";", null);
+//
+//        ArrayList<Integer> user_diaryids = new ArrayList<>();
+//        while (cursor.moveToNext()) {
+//            user_diaryids.add(cursor.getInt(0));
+//        }
+//
+//        // 가장 빈번한 키워드 찾기
+//        int[] keywordcount = new int[100];
+//        Arrays.fill(keywordcount, 0);
+//
+//        for (int i = 0; i < user_diaryids.size(); i++) {
+//            cursor = sqlreadDB.rawQuery("select keywordid from diarywithkeyword where Diaryid=" + user_diaryids.get(i) + ";", null);
+//            while (cursor.moveToNext()) {
+//                keywordcount[cursor.getInt(0)]++;
+//            }
+//        }
+//
+//        int maximumkeywordindex = 0;
+//        int maximum = 0;
+//        for (int i = 0; i < 100; i++) {
+//            if (keywordcount[i] > maximum) {
+//                maximumkeywordindex = i;
+//                maximum = keywordcount[i];
+//            }
+//        }
+//
+//        String returnkeyword = "";
+//        cursor = sqlreadDB.rawQuery("select Keyword from keyword where Keywordid="+maximumkeywordindex+";",null);
+//        while (cursor.moveToNext()) {
+//            returnkeyword = cursor.getString(0);
+//        }
+//        cursor.close();
+//
+//        return returnkeyword;
     }
 }

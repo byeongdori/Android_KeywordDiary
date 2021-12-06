@@ -33,7 +33,6 @@
                 android:text="USERNAME" />
 
             <TextView
-                android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=" - 추천 문구 1" />
@@ -67,7 +66,7 @@
         tools:layout_editor_absoluteX="16dp">
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/mostappearkeyword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="가장 빈번하게 등장한 키워드" />

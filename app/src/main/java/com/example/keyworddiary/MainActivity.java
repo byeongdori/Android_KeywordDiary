@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences pref = getSharedPreferences("username", Activity.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
             editor.putString("username", Username);   // Username 저장
-            //editor.commit();
+            editor.commit();
             editor.apply();
         }
         super.onDestroy();
