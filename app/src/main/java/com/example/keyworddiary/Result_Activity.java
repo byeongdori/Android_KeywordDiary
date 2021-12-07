@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.keyworddiary.databinding.ActivityMainBinding;
@@ -48,13 +49,15 @@ public class Result_Activity extends AppCompatActivity {
 
             // 키워드 분석 결과 세팅
             // 1. 가장 많이 나타난 키워드
+            Log.i("TEST", "Mostappear" + userid);
             String mostappearkeyword = myDB.getKeywordinfo_mostappear(this, userid);
             binding.mostappearkeyword.setText(mostappearkeyword);
 
             // 2. 기분 좋은 날 등장한 키워드
 
-        }
-        if (Username == null) {
+            // 3. 주말에만 등장한 키워드드
+
+        }        if (Username == null) {
             binding.userinfoName.setText("유저 이름이 설정 되어있지 않아요!");
         }
     }

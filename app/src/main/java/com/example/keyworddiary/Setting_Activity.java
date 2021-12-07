@@ -66,6 +66,10 @@ public class Setting_Activity extends AppCompatActivity {
         editor.putString("username", Username);
         editor.putInt("userage", Userage);
         editor.commit();
+
+        // 저장 끝나면 메인 화면으로 이동
+        startActivity(new Intent(this,MainActivity.class));
+        finish();
     }
 
     // 데이터 초기화 함수!

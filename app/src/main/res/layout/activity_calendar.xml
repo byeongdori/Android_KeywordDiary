@@ -25,26 +25,28 @@
         tools:layout_editor_absoluteX="0dp">
 
         <TextView
-            android:id="@+id/textView16"
+            android:id="@+id/Monthlyresult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="월간 통계" />
 
         <TextView
-            android:id="@+id/textView17"
+            android:id="@+id/Daysofweekresult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="요일별 통계" />
     </LinearLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:name="com.example.keyworddiary.Fragment_calendarinfo"
-        android:layout_width="344dp"
-        android:layout_height="245dp"
+        android:layout_width="376dp"
+        android:layout_height="266dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout10"
-        tools:layout="@layout/fragment_calendarinfo"/>
+        tools:layout="@layout/fragment_calendarinfo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

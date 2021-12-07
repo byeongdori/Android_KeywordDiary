@@ -137,7 +137,7 @@ public class myDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqlreadDB = myHelper.getReadableDatabase();
         // 이미 오늘 생성했는지 체크
         Cursor cursor;
-        cursor = sqlreadDB.rawQuery("select diaryid from diary where Userid="+userid+" and Score="+score+" and Year="+year+" and Month="+month+" and Day="+day+";", null);
+        cursor = sqlreadDB.rawQuery("select diaryid from diary where Userid="+userid+" and Year="+year+" and Month="+month+" and Day="+day+";", null);
         // 넣으려는 다이어리 없는 경우에만 DB에 넣기!
         if (cursor.getCount() == 0) {
             SQLiteDatabase sqlDB = myHelper.getWritableDatabase();
@@ -195,9 +195,9 @@ public class myDBHelper extends SQLiteOpenHelper {
     public double[] getDiaryScoreDetail(Context context, int userid, int year, int month, int day) {
         double[] resultscore = new double[3];
         Arrays.fill(resultscore, 0);
-        double[] resultweeklyscore = new double[7];
+        double[] resultweeklyscore = new double[8];
         Arrays.fill(resultweeklyscore, 0);
-        int[] resultweeklycount = new int[7];
+        int[] resultweeklycount = new int[8];
         Arrays.fill(resultweeklycount, 0);
 
         double minimumscore = 101.0;
@@ -234,7 +234,7 @@ public class myDBHelper extends SQLiteOpenHelper {
             return resultscore;
         }
         // 요일별 통계
-        else {
+        else if (day == 999) {
             cursor = sqlreadDB.rawQuery("select Score, Year, Month, Day from Diary where Userid=" + userid + ";", null);
 
             while (cursor.moveToNext()) {
@@ -257,6 +257,7 @@ public class myDBHelper extends SQLiteOpenHelper {
             }
             return resultweeklyscore;
         }
+        return null;
     }
 
     public void insertDiarywithKeyword(Context context, int diaryid, int keywordid) {
@@ -289,6 +290,7 @@ public class myDBHelper extends SQLiteOpenHelper {
         ArrayList<Integer> user_diaryids = new ArrayList<>();
         while (cursor.moveToNext()) {
             user_diaryids.add(cursor.getInt(0));
+            Log.i("TEST", "diaryids" + cursor.getInt(0));
         }
 
         // 가장 빈번한 키워드 찾기
@@ -310,6 +312,7 @@ public class myDBHelper extends SQLiteOpenHelper {
                 maximum = keywordcount[i];
             }
         }
+        Log.i("TEST", "maximumkeywordindex" + maximumkeywordindex);
 
         String returnkeyword = "";
         cursor = sqlreadDB.rawQuery("select Keyword from keyword where Keywordid="+maximumkeywordindex+";",null);
@@ -325,7 +328,7 @@ public class myDBHelper extends SQLiteOpenHelper {
         // 가장 높은 점수 얻은 키워드 분석 함수
         myDBHelper myHelper = new myDBHelper(context);
         SQLiteDatabase sqlreadDB = myHelper.getReadableDatabase();
-
+        return "";
 //        Cursor cursor;
 //        cursor = sqlreadDB.rawQuery("select diaryid from diary where Userid="+userid+";", null);
 //

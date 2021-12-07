@@ -10,9 +10,14 @@
         android:id="@+id/textView18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
         android:text="설정 창"
-        tools:layout_editor_absoluteX="184dp"
-        tools:layout_editor_absoluteY="30dp" />
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout4"
@@ -27,12 +32,15 @@
             android:id="@+id/textView21"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="사용자 이름" />
+            android:layout_marginLeft="10dp"
+            android:text="사용자 이름"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/UsernameInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:ems="9"
             android:hint="이름을 입력해 주세요"
             android:inputType="textPersonName" />
@@ -52,12 +60,15 @@
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="사용자 나이" />
+            android:layout_marginLeft="10dp"
+            android:text="사용자 나이"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/Userageinput"
             android:layout_width="186dp"
             android:layout_height="41dp"
+            android:layout_marginLeft="20dp"
             android:ems="10"
             android:hint="나이를 입력해 주세요"
             android:inputType="number" />
@@ -81,7 +92,7 @@
 
         <Button
             android:id="@+id/button4"
-            android:layout_width="wrap_content"
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="이미지 선택" />
@@ -91,28 +102,32 @@
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
-        tools:layout_editor_absoluteX="141dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/Userinfosave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="52dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginBottom="48dp"
         android:onClick="saveuserinfo"
         android:text="정보 저장"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="67dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="48dp"
         android:onClick="initializedata"
         android:text="데이터 초기화"
-        tools:layout_editor_absoluteX="231dp"
-        tools:layout_editor_absoluteY="628dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
