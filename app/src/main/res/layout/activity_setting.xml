@@ -43,7 +43,8 @@
             android:layout_marginLeft="20dp"
             android:ems="9"
             android:hint="이름을 입력해 주세요"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            tools:ignore="TouchTargetSizeCheck" />
 
     </LinearLayout>
 
@@ -71,42 +72,9 @@
             android:layout_marginLeft="20dp"
             android:ems="10"
             android:hint="나이를 입력해 주세요"
-            android:inputType="number" />
+            android:inputType="number"
+            tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
-        tools:layout_editor_absoluteX="0dp">
-
-        <TextView
-            android:id="@+id/textView23"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
-
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="55dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="이미지 선택" />
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
-        tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/Userinfosave"

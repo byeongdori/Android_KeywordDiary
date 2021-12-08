@@ -3,22 +3,32 @@ package com.example.keyworddiary;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 // 앱 초기 시작화면 나오기 전 뜨는 스플래쉬형 액티비티
-// https://yongtech.tistory.com/100 - 여기 링크 참고하여 초기 화면 추가하기
-public class SplashActivity extends Activity {
+public class SplashActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
 
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
+        moveMain(2);
+    }
+
+    private void moveMain(int sec) {
+        new Handler().postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 1000 * sec);
     }
 }

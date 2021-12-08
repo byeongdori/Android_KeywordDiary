@@ -67,13 +67,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 currentscore = seekBar.getProgress();
-                Log.i("TEST", Integer.toString(currentscore));
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 currentscore = seekBar.getProgress();
-                Log.i("TEST", Integer.toString(currentscore));
             }
         });
         setContentView(view);
@@ -104,10 +102,14 @@ public class MainActivity extends AppCompatActivity {
         // 유저가 입력한 키워드 DB에 저장, 생성된 KeyWord ID도 받아와야 할듯?
         ArrayList<Integer> keywordids = new ArrayList<>();
         for (int i = 0; i < todayworks.size(); i++) {
-            keywordids.add(myDB.insertKeyword(this, todayworks.get(i)));
+            if (todayworks.get(i) != " ") {
+                keywordids.add(myDB.insertKeyword(this, todayworks.get(i)));
+            }
         }
         for (int i = 0; i < todayfeelings.size(); i++) {
-            keywordids.add(myDB.insertKeyword(this, todayfeelings.get(i)));
+            if (todayfeelings.get(i) != " ") {
+                keywordids.add(myDB.insertKeyword(this, todayfeelings.get(i)));
+            }
         }
 
         // 최종 다이어리 객체 DB에 생성
@@ -142,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
     // 설정 액티비티로 가는 버튼 누른 경우 동작 수행하는 함수
     public void tosettingactivity(View view){
-        startActivity(new Intent(this,Setting_Activity.class));
+        startActivity(new Intent(this, Setting_Activity.class));
         finish();
     }
 }

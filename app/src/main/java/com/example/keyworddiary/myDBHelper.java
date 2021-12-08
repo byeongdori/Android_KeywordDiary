@@ -127,7 +127,6 @@ public class myDBHelper extends SQLiteOpenHelper {
         cursor.close();
         Toast.makeText(context, "키워드 저장 완료! ", Toast.LENGTH_LONG).show();
 
-        Log.i("TEST", "키워드 id 리턴 : " + keyword_id);
         return keyword_id;
     }
 
@@ -141,6 +140,7 @@ public class myDBHelper extends SQLiteOpenHelper {
         // 넣으려는 다이어리 없는 경우에만 DB에 넣기!
         if (cursor.getCount() == 0) {
             SQLiteDatabase sqlDB = myHelper.getWritableDatabase();
+            Log.i("TEST", "넣는곳" + Integer.toString(score));
             sqlDB.execSQL("insert into diary (Userid, Score, Year, Month, Day) values ("+userid+", "+score+", "+year+", "+month+","+day+")");
             //sqlDB.close();
             cursor = sqlreadDB.rawQuery("select diaryid from diary where Userid="+userid+" and Score="+score+" and Year="+year+" and Month="+month+" and Day="+day+";", null);
@@ -189,6 +189,35 @@ public class myDBHelper extends SQLiteOpenHelper {
         resultscore[2] = averagescore;
 
         return resultscore;
+    }
+
+    // 특정 날짜의 다이어리 정보 구하는 함수
+    public ArrayList<String> getDiaryScoreDaily(Context context, int userid, int year, int month, int day) {
+        myDBHelper myHelper = new myDBHelper(context);
+        SQLiteDatabase sqlreadDB = myHelper.getReadableDatabase();
+
+        ArrayList<String> resultkeyword = new ArrayList<>();
+
+        Cursor cursor;
+        cursor = sqlreadDB.rawQuery("select Diaryid, Score from diary where Userid=" + userid + " and Year="+year+" and Month="+month+" and Day="+day+";", null);
+
+        while (cursor.moveToNext()) {
+            int diaryid = cursor.getInt(0);
+            resultkeyword.add(Integer.toString(cursor.getInt(1)));
+
+            Cursor cursor2;
+            cursor2 = sqlreadDB.rawQuery("select Keywordid from diarywithkeyword where Diaryid="+diaryid+";", null);
+
+            Cursor cursor3;
+            while (cursor2.moveToNext()) {
+                cursor3 = sqlreadDB.rawQuery("select Keyword from keyword where Keywordid="+cursor2.getInt(0)+";", null);
+
+                while (cursor3.moveToNext()) {
+                    resultkeyword.add(cursor3.getString(0));
+                }
+            }
+        }
+        return resultkeyword;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -279,18 +308,70 @@ public class myDBHelper extends SQLiteOpenHelper {
         Toast.makeText(context, "키워드 저장 완료!", Toast.LENGTH_LONG).show();
     }
 
+    public ArrayList<String> getKeywordinfo_recentappear(Context context, int userid) {
+        // 가장 덜 빈번한 키워드 분석 함수
+        myDBHelper myHelper = new myDBHelper(context);
+        SQLiteDatabase sqlreadDB = myHelper.getReadableDatabase();
+
+        Cursor cursor;
+        cursor = sqlreadDB.rawQuery("select Diaryid from diary where Userid="+userid+";", null);
+
+        ArrayList<Integer> user_diaryids = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            user_diaryids.add(cursor.getInt(0));
+        }
+
+        // 최근 키워드 찾기
+        ArrayList<Integer> keywordids_recent = new ArrayList<>();
+        if (user_diaryids.size() > 3) {
+            for (int i = user_diaryids.size() - 1; i > user_diaryids.size() - 3; i--) {
+                cursor = sqlreadDB.rawQuery("select Keywordid from diarywithkeyword where Diaryid=" + user_diaryids.get(i) + ";", null);
+                while (cursor.moveToNext()) {
+                    keywordids_recent.add(cursor.getInt(0));
+                }
+            }
+        }
+        else if (user_diaryids.size() == 1) {
+            cursor = sqlreadDB.rawQuery("select Keywordid from diarywithkeyword where Diaryid=" + user_diaryids.get(0) + ";", null);
+            while (cursor.moveToNext()) {
+                keywordids_recent.add(cursor.getInt(0));
+            }
+        }
+        else {
+            cursor = sqlreadDB.rawQuery("select Keywordid from diarywithkeyword where Diaryid=" + user_diaryids.get(0) + ";", null);
+            while (cursor.moveToNext()) {
+                keywordids_recent.add(cursor.getInt(0));
+            }
+
+            cursor = sqlreadDB.rawQuery("select Keywordid from diarywithkeyword where Diaryid=" + user_diaryids.get(1) + ";", null);
+            while (cursor.moveToNext()) {
+                keywordids_recent.add(cursor.getInt(0));
+            }
+        }
+
+        ArrayList<String> returnkeyword = new ArrayList<>();
+        for (int i = 0; i < keywordids_recent.size(); i++) {
+            cursor = sqlreadDB.rawQuery("select Keyword from keyword where Keywordid=" + keywordids_recent.get(i) + ";", null);
+            while (cursor.moveToNext()) {
+                returnkeyword.add(cursor.getString(0));
+            }
+        }
+
+        cursor.close();
+        return returnkeyword;
+    }
+
     public String getKeywordinfo_mostappear(Context context, int userid) {
         // 가장 빈번한 키워드 분석 함수
         myDBHelper myHelper = new myDBHelper(context);
         SQLiteDatabase sqlreadDB = myHelper.getReadableDatabase();
 
         Cursor cursor;
-        cursor = sqlreadDB.rawQuery("select diaryid from diary where Userid="+userid+";", null);
+        cursor = sqlreadDB.rawQuery("select Diaryid from diary where Userid="+userid+";", null);
 
         ArrayList<Integer> user_diaryids = new ArrayList<>();
         while (cursor.moveToNext()) {
             user_diaryids.add(cursor.getInt(0));
-            Log.i("TEST", "diaryids" + cursor.getInt(0));
         }
 
         // 가장 빈번한 키워드 찾기
@@ -298,7 +379,7 @@ public class myDBHelper extends SQLiteOpenHelper {
         Arrays.fill(keywordcount, 0);
 
         for (int i = 0; i < user_diaryids.size(); i++) {
-            cursor = sqlreadDB.rawQuery("select keywordid from diarywithkeyword where Diaryid=" + user_diaryids.get(i) + ";", null);
+            cursor = sqlreadDB.rawQuery("select Keywordid from diarywithkeyword where Diaryid=" + user_diaryids.get(i) + ";", null);
             while (cursor.moveToNext()) {
                 keywordcount[cursor.getInt(0)]++;
             }
@@ -312,7 +393,6 @@ public class myDBHelper extends SQLiteOpenHelper {
                 maximum = keywordcount[i];
             }
         }
-        Log.i("TEST", "maximumkeywordindex" + maximumkeywordindex);
 
         String returnkeyword = "";
         cursor = sqlreadDB.rawQuery("select Keyword from keyword where Keywordid="+maximumkeywordindex+";",null);
@@ -324,46 +404,123 @@ public class myDBHelper extends SQLiteOpenHelper {
         return returnkeyword;
     }
 
-    public String getKeywordinfo_higherscore(Context context, int userid) {
-        // 가장 높은 점수 얻은 키워드 분석 함수
+    public ArrayList<String> getKeywordinfo_higherscore(Context context, int userid) {
+        // 가장 높은 점수, 기분 좋은 날 입력한 키워드 분석 함수
         myDBHelper myHelper = new myDBHelper(context);
         SQLiteDatabase sqlreadDB = myHelper.getReadableDatabase();
-        return "";
-//        Cursor cursor;
-//        cursor = sqlreadDB.rawQuery("select diaryid from diary where Userid="+userid+";", null);
-//
-//        ArrayList<Integer> user_diaryids = new ArrayList<>();
-//        while (cursor.moveToNext()) {
-//            user_diaryids.add(cursor.getInt(0));
-//        }
-//
-//        // 가장 빈번한 키워드 찾기
-//        int[] keywordcount = new int[100];
-//        Arrays.fill(keywordcount, 0);
-//
-//        for (int i = 0; i < user_diaryids.size(); i++) {
-//            cursor = sqlreadDB.rawQuery("select keywordid from diarywithkeyword where Diaryid=" + user_diaryids.get(i) + ";", null);
-//            while (cursor.moveToNext()) {
-//                keywordcount[cursor.getInt(0)]++;
-//            }
-//        }
-//
-//        int maximumkeywordindex = 0;
-//        int maximum = 0;
-//        for (int i = 0; i < 100; i++) {
-//            if (keywordcount[i] > maximum) {
-//                maximumkeywordindex = i;
-//                maximum = keywordcount[i];
-//            }
-//        }
-//
-//        String returnkeyword = "";
-//        cursor = sqlreadDB.rawQuery("select Keyword from keyword where Keywordid="+maximumkeywordindex+";",null);
-//        while (cursor.moveToNext()) {
-//            returnkeyword = cursor.getString(0);
-//        }
-//        cursor.close();
-//
-//        return returnkeyword;
+
+        Cursor cursor;
+        cursor = sqlreadDB.rawQuery("select Diaryid, Score from diary where Userid="+userid+";", null);
+
+        int top_score_index = -1;
+        int second_score_index = -1;
+        int top_score = 0, second_score = 0;
+        int index = 0;
+
+        ArrayList<Integer> user_diaryids_with_topScore = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            user_diaryids_with_topScore.add(cursor.getInt(0));
+            int temp = cursor.getInt(1);
+            if (temp > top_score) {
+                second_score = top_score;
+                second_score_index = top_score_index;
+                top_score = temp;
+                top_score_index = index;
+
+            } else if (second_score < temp && temp <= top_score) {
+                second_score = temp;
+                second_score_index = index;
+            }
+            index++;
+        }
+
+        // 키워드 찾기
+        ArrayList<String> resultkeyword = new ArrayList<>();
+
+        if (top_score_index != -1) {
+            cursor = sqlreadDB.rawQuery("select Keywordid from diarywithkeyword where Diaryid=" + user_diaryids_with_topScore.get(top_score_index) + ";", null);
+            while (cursor.moveToNext()) {
+                resultkeyword.add(cursor.getString(0));
+            }
+        }
+
+        if (second_score_index != -1) {
+            cursor = sqlreadDB.rawQuery("select Keywordid from diarywithkeyword where Diaryid=" + user_diaryids_with_topScore.get(second_score_index) + ";", null);
+            while (cursor.moveToNext()) {
+                resultkeyword.add(cursor.getString(0));
+            }
+        }
+
+        ArrayList<String> returnkeyword = new ArrayList<>();
+        for (int i = 0; i < resultkeyword.size(); i++) {
+            cursor = sqlreadDB.rawQuery("select Keyword from keyword where Keywordid=" + resultkeyword.get(i) + ";", null);
+            while (cursor.moveToNext()) {
+                returnkeyword.add(cursor.getString(0));
+            }
+        }
+
+        cursor.close();
+
+        return returnkeyword;
+    }
+
+    public ArrayList<String> getKeywordinfo_lowerscore(Context context, int userid) {
+        // 낮은 점수받은 날 입력한 키워드들 분석 함수
+        myDBHelper myHelper = new myDBHelper(context);
+        SQLiteDatabase sqlreadDB = myHelper.getReadableDatabase();
+
+        Cursor cursor;
+        cursor = sqlreadDB.rawQuery("select Diaryid, Score from diary where Userid="+userid+";", null);
+
+        int top_lower_score_index = -1;
+        int second_lower_score_index = -1;
+        int top_lower_score = 101, second_lower_score = 101;
+        int index = 0;
+
+        ArrayList<Integer> user_diaryids_with_lowScore = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            user_diaryids_with_lowScore.add(cursor.getInt(0));
+            int temp = cursor.getInt(1);
+            if (temp < top_lower_score) {
+                second_lower_score = top_lower_score;
+                second_lower_score_index = top_lower_score_index;
+                top_lower_score = temp;
+                top_lower_score_index = index;
+
+            } else if (top_lower_score < temp && temp <= second_lower_score) {
+                second_lower_score = temp;
+                second_lower_score_index = index;
+            }
+            index++;
+        }
+
+        // 키워드 찾기
+        ArrayList<String> resultkeyword = new ArrayList<>();
+
+        if (top_lower_score_index != -1) {
+            cursor = sqlreadDB.rawQuery("select Keywordid from diarywithkeyword where Diaryid=" + user_diaryids_with_lowScore.get(top_lower_score_index) + ";", null);
+            while (cursor.moveToNext()) {
+                resultkeyword.add(cursor.getString(0));
+            }
+        }
+
+        if (second_lower_score_index != -1) {
+            cursor = sqlreadDB.rawQuery("select Keywordid from diarywithkeyword where Diaryid=" + user_diaryids_with_lowScore.get(second_lower_score_index) + ";", null);
+            while (cursor.moveToNext()) {
+                resultkeyword.add(cursor.getString(0));
+            }
+        }
+
+        ArrayList<String> returnkeyword = new ArrayList<>();
+        for (int i = 0; i < resultkeyword.size(); i++) {
+            cursor = sqlreadDB.rawQuery("select Keyword from keyword where Keywordid=" + resultkeyword.get(i) + ";", null);
+            while (cursor.moveToNext()) {
+                returnkeyword.add(cursor.getString(0));
+            }
+        }
+
+        cursor.close();
+
+        return returnkeyword;
     }
 }

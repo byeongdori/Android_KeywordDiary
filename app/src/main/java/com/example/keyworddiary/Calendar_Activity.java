@@ -32,6 +32,9 @@ public class Calendar_Activity extends AppCompatActivity {
     public int click_month = 0;
     public int click_day = 0;
 
+    // 프래그먼트
+    Fragment_calendarinfo fragment_calendarinfo = new Fragment_calendarinfo();
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +48,10 @@ public class Calendar_Activity extends AppCompatActivity {
         Username = pref.getString("username", "");
 
         long current = System.currentTimeMillis();
-        //SimpleDateFormat yeartransFormat = new SimpleDateFormat("yyyy");
         SimpleDateFormat monthtransFormat = new SimpleDateFormat("MM");
-        //SimpleDateFormat daytransFormat = new SimpleDateFormat("dd");
         Date currentDate = new Date(current);
 
-        //int current_year = Integer.parseInt(yeartransFormat.format(currentDate));
         click_month = Integer.parseInt(monthtransFormat.format(currentDate));
-        //int current_day = Integer.parseInt(daytransFormat.format(currentDate));
 
         // 캘린더 뷰 관련 함수
         binding.resultCalendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -62,6 +61,9 @@ public class Calendar_Activity extends AppCompatActivity {
                 click_year = i;
                 click_month = i1 + 1;
                 click_day = i2;
+
+                binding.pickday.setText("");
+                fragment_calendarinfo.setFragmentinfo(Username, click_year, click_month, click_day);
             }
         });
 
@@ -69,12 +71,15 @@ public class Calendar_Activity extends AppCompatActivity {
         int userid = Integer.parseInt(myDB.getUser(this, Username)[0]);
         // 1. 월간 통계
         double[] monthlyScoreresult = myDB.getDiaryScoreDetail(this, userid, 0, click_month, 0);
-        binding.Monthlyresult.setText("월간 최저 점수 : "+ monthlyScoreresult[0] + " 월간 평균 점수 : " + monthlyScoreresult[1] + " 월간 최고 점수 : " + monthlyScoreresult[2]);
+        binding.Monthlyresult.setText("월간 최저 점수 : "+ monthlyScoreresult[0] + " 월간 최고 점수 : " + monthlyScoreresult[1] + " 월간 평균 점수 : " + String.format("%.2f", monthlyScoreresult[2]));
 
         // 2. 요일별 통계
         double[] DaysofweekScoreresult = myDB.getDiaryScoreDetail(this, userid, 0, 0, 999);
         binding.Daysofweekresult.setText("월 : " + DaysofweekScoreresult[1] + " 화 : " + DaysofweekScoreresult[2] + " 수 : " + DaysofweekScoreresult[3] +
                 " 목 : " + DaysofweekScoreresult[4] + " 금 : " + DaysofweekScoreresult[5] + " 토 : " + DaysofweekScoreresult[6] + " 일 : " + DaysofweekScoreresult[7]);
+
+        // 프래그먼트 띄우기
+        getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainerView, fragment_calendarinfo).commit();
     }
 
     // 이전 버튼 눌렀을 때 동작하는 함수, 이전 액티비티 실행하도록 만들기
